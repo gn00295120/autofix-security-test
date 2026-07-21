@@ -1,4 +1,7 @@
 import os
+from flask import Flask, request
+
+app = Flask(__name__)
 
 
 def read_config(filename):
@@ -11,3 +14,8 @@ def read_config(filename):
     filepath = os.path.join('/configs', filename)
     with open(filepath, 'r') as f:
         return f.read()
+
+
+@app.route('/config')
+def config_route():
+    return read_config(request.args.get('name'))

@@ -1,4 +1,7 @@
 import sqlite3
+from flask import Flask, request
+
+app = Flask(__name__)
 
 
 def get_user(user_id):
@@ -23,3 +26,13 @@ def search_users(name):
     query = "SELECT * FROM users WHERE name LIKE '%" + name + "%'"
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@app.route('/user')
+def user_route():
+    return str(get_user(request.args.get('id')))
+
+
+@app.route('/search')
+def search_route():
+    return str(search_users(request.args.get('name')))
